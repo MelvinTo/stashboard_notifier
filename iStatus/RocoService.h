@@ -16,4 +16,6 @@
 @property (nonatomic, copy) NSString *serviceName;
 @property (nonatomic, retain) RocoEvent *event;
 
+- (NSString*)getServiceURL:(NSString*) baseURLString;
+
 @end

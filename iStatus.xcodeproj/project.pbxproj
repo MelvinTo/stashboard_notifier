@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4186B0AD175B418000EB38EF /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41AFA01A174E1D6000901BA6 /* Carbon.framework */; };
 		41A8646517533AF300D2E284 /* RocoService.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A8646417533AF300D2E284 /* RocoService.m */; };
 		41A8646817533B6A00D2E284 /* RocoEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A8646717533B6A00D2E284 /* RocoEvent.m */; };
 		41A8646B17533BC700D2E284 /* RocoStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A8646A17533BC700D2E284 /* RocoStatus.m */; };
@@ -111,6 +112,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4186B0AD175B418000EB38EF /* Carbon.framework in Frameworks */,
 				41AF9FF3174E16AD00901BA6 /* SenTestingKit.framework in Frameworks */,
 				41AF9FF4174E16AD00901BA6 /* Cocoa.framework in Frameworks */,
 			);
@@ -550,12 +552,14 @@
 		};
 		41AFA006174E16AD00901BA6 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB55A1191FE34D1C96F15166 /* Pods.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/iStatus.app/Contents/MacOS/iStatus";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iStatus/iStatus-Prefix.pch";
+				HEADER_SEARCH_PATHS = "${PODS_HEADERS_SEARCH_PATHS}";
 				INFOPLIST_FILE = "iStatusTests/iStatusTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -565,12 +569,14 @@
 		};
 		41AFA007174E16AD00901BA6 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB55A1191FE34D1C96F15166 /* Pods.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/iStatus.app/Contents/MacOS/iStatus";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iStatus/iStatus-Prefix.pch";
+				HEADER_SEARCH_PATHS = "${PODS_HEADERS_SEARCH_PATHS}";
 				INFOPLIST_FILE = "iStatusTests/iStatusTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";

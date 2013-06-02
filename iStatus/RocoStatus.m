@@ -24,4 +24,17 @@
     }
 }
 
+- (BOOL)isEqual:(id)object {
+    if ([self class] != [object class]) {
+        return NO;
+    }
+    
+    RocoStatus* target = (RocoStatus*) object;
+    
+    return [[self statusID] isEqual: [target statusID]];
+    
+}
+
+
+
 @end

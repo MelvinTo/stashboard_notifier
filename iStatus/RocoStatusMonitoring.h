@@ -22,8 +22,9 @@
 
 @end
 
-@interface RocoStatusMonitoring : NSObject {
+@interface RocoStatusMonitoring : NSObject<NSUserNotificationCenterDelegate> {
     NSTimer *_timer;
+    NSArray *_prevServiceStatuses;
 }
 
 @property (nonatomic, strong) RKObjectManager *objectManager;

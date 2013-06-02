@@ -23,6 +23,9 @@
     RocoStatusMonitoring *monitoring = [[RocoStatusMonitoring alloc ] init];
     [monitoring setDelegate:systemTray];
     [monitoring startMonitoring];
+    
+    [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:monitoring];
+
 }
 
 @end

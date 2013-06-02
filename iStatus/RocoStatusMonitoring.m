@@ -19,6 +19,8 @@ NSString *baseURLString = @"http://ipds-status.cisco.com:8080/";
 //    RKLogConfigureByName("RestKit/Network*", RKLogLevelTrace);
 //    RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelTrace);
     
+    _prevServiceStatuses = nil;
+    
     NSURL *baseURL = [NSURL URLWithString:baseURLString];
     
     AFHTTPClient* client = [[AFHTTPClient alloc] initWithBaseURL:baseURL];
@@ -72,12 +74,33 @@ NSString *baseURLString = @"http://ipds-status.cisco.com:8080/";
                          parameters:nil
                             success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                 NSArray* services = [mappingResult array];
+                                
+                                // sort it
+                                NSArray* sortedServices = [services sortedArrayUsingComparator: ^(id obj1, id obj2) {
+                                    
+                                    if ([obj1 serviceID] > [obj2 serviceID]) {
+                                        return (NSComparisonResult)NSOrderedDescending;
+                                    }
+                                    
+                                    if ([obj1 serviceID] < [obj2 serviceID]) {
+                                        return (NSComparisonResult)NSOrderedAscending;
+                                    }
+                                    return (NSComparisonResult)NSOrderedSame;
+                                }];
+                                
+                                
+                                NSArray* newServiceStatuses = [self getNewServiceStatuses:sortedServices];
+                                _prevServiceStatuses = sortedServices;
+                                
+                                [self showNotification:newServiceStatuses];
+                                
                                 if (_delegate != nil) {
                                     [_delegate updateServices:services];
                                 }
                             }
                             failure:^(RKObjectRequestOperation *operation, NSError *error) {
                                 NSLog(@"Hit error: %@", error);
+                                
                             }];
 
 }
@@ -92,6 +115,81 @@ NSString *baseURLString = @"http://ipds-status.cisco.com:8080/";
 
 - (void) stopMonitoring {
     [_timer invalidate];
+}
+
+- (NSArray*) getNewServiceStatuses: (NSArray*) curServices {
+    if(_prevServiceStatuses == nil) {
+        // first time, ignore all normal services
+        NSMutableArray *array = [NSMutableArray array];
+        for (RocoService* service in curServices) {
+            if([[[service event] status] getStatus] > NORMAL) {
+                [array addObject:service];
+            }
+        }
+        return array;
+    }
+    
+    // assume the array is sorted by service name
+    NSMutableArray * newServiceStatusArray = [NSMutableArray array];
+    
+    for (RocoService* service in curServices) {
+        BOOL found = NO;
+        
+        for (RocoService* service2 in _prevServiceStatuses) {
+            if ([service isEqual:service2]) {
+                NSLog(@"this service status is old: %@", service);
+                found = YES;
+            }
+        }
+        
+        if(!found) {
+            [newServiceStatusArray addObject:service];
+        }
+    }
+    
+    return newServiceStatusArray;
+}
+
+- (void) showNotification: (NSArray*) services {
+    for (RocoService* service in services) {
+        NSString *serviceName = [service serviceName];
+        NSString *status = [[[service event] status] statusID];
+        NSString *serviceID = [service serviceID];
+        STATUS_ID statusID = [[[service event] status] getStatus];
+        NSString *message = [[service event] message];
+        
+        NSDictionary* serviceInfo = [NSDictionary dictionaryWithObjectsAndKeys:serviceID, @"serviceID", nil];
+        
+        NSUserNotification *notification = [[NSUserNotification alloc] init];
+        
+        notification.userInfo = serviceInfo;
+        
+        if(statusID == NORMAL) {
+            notification.title = [NSString stringWithFormat:@"%@ is back to normal", serviceName];
+        } else {
+            notification.title = [NSString stringWithFormat:@"%@ on %@", [status capitalizedString], serviceName];
+            notification.informativeText = message;
+            notification.soundName = NSUserNotificationDefaultSoundName;
+        }
+        
+        [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+    }
+}
+
+- (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification {
+    NSLog(@"callback from NSNotificationCenter");
+    
+    NSDictionary* serviceInfo = notification.userInfo;
+    
+    NSString *serviceID = [serviceInfo objectForKey:@"serviceID"];
+    
+    for (RocoService* service in _prevServiceStatuses) {
+        if ([[service serviceID] isEqual:serviceID]) {
+            NSURL *url = [NSURL URLWithString:[service getServiceURL:baseURLString]];
+            if( ![[NSWorkspace sharedWorkspace] openURL:url] )
+                NSLog(@"Failed to open url: %@",[url description]);
+        }
+    }
 }
 
 @end

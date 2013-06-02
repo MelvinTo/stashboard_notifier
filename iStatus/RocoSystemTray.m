@@ -111,7 +111,7 @@
 
 - (void) openURL:(id)sender {
     RocoService *service = [sender representedObject];
-    NSString *urlString = [self getServiceURL:service];
+    NSString *urlString = [service getServiceURL:_baseURLString];
     NSLog(@"Try to open url: %@", urlString);
     
     NSURL *url = [NSURL URLWithString:urlString];
@@ -263,10 +263,6 @@
 			}
 		}
 	}
-}
-
-- (NSString*)getServiceURL:(RocoService *)service {
-    return [NSString stringWithFormat:@"%@services/%@", _baseURLString, [service serviceID]];
 }
 
 - (void)setBaseURL:(NSString *)baseURLString {

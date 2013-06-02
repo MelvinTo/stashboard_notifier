@@ -10,4 +10,17 @@
 
 @implementation RocoEvent
 
+- (BOOL)isEqual:(id)object {
+    if ([self class] != [object class]) {
+        return NO;
+    }
+    
+    RocoEvent* target = (RocoEvent*) object;
+    
+    return [[self message] isEqual:[target message]]
+    && [[self eventID] isEqual: [target eventID]]
+    && [[self status] isEqual: [target status]];
+    
+}
+
 @end
