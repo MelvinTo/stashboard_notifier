@@ -6,6 +6,7 @@ This ia an OSX system tray app on collecting latest status from stashboard.
 * This system tray app will provide an icon indicating current status of dashboard.
 * Detail warning/error messages will be displayed by clicking the icon. The messages are broken down to components.
 * Able to automatically launch app when startup.
-* [TODO] Send out notifications if there is any status change.
+* Able to send out notifications if there is any status change.
+* Able to open stashboard url by click notification or menu.
 
 
