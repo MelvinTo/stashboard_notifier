@@ -158,6 +158,10 @@ NSString *baseURLString = @"http://ipds-status.cisco.com:8080/";
         STATUS_ID statusID = [[[service event] status] getStatus];
         NSString *message = [[service event] message];
         
+        if (status == NULL) {
+            return;
+        }
+        
         NSDictionary* serviceInfo = [NSDictionary dictionaryWithObjectsAndKeys:serviceID, @"serviceID", nil];
         
         NSUserNotification *notification = [[NSUserNotification alloc] init];
