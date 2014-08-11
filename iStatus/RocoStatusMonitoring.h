@@ -19,6 +19,7 @@
 
 - (void) updateServices: (NSArray*) services;
 - (void) setBaseURL: (NSString*)baseURLString;
+- (void) onNotReachable;
 
 @end
 
@@ -31,5 +32,6 @@
 @property (nonatomic, strong) id<RocoStatusMonitoringDelegate> delegate;
 
 - (void) startMonitoring;
+- (void) stopMonitoring;
 
 @end

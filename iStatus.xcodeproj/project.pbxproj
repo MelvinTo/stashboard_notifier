@@ -7,7 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		41684B511997DA6000389BD4 /* StatusScheduler.m in Sources */ = {isa = PBXBuildFile; fileRef = 41684B501997DA6000389BD4 /* StatusScheduler.m */; };
 		4186B0AD175B418000EB38EF /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41AFA01A174E1D6000901BA6 /* Carbon.framework */; };
+		41A0743C19952B4E00EF489A /* PreferenceWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41A0743B19952B4E00EF489A /* PreferenceWindow.xib */; };
+		41A07442199539CE00EF489A /* StatusPreferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A07441199539CE00EF489A /* StatusPreferenceViewController.m */; };
+		41A074451995BE8E00EF489A /* StatusNotificationProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A074441995BE8E00EF489A /* StatusNotificationProxy.m */; };
+		41A074481995CFA000EF489A /* StatusConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A074471995CFA000EF489A /* StatusConfiguration.m */; };
 		41A8646517533AF300D2E284 /* RocoService.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A8646417533AF300D2E284 /* RocoService.m */; };
 		41A8646817533B6A00D2E284 /* RocoEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A8646717533B6A00D2E284 /* RocoEvent.m */; };
 		41A8646B17533BC700D2E284 /* RocoStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A8646A17533BC700D2E284 /* RocoStatus.m */; };
@@ -53,6 +58,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		41684B4F1997DA6000389BD4 /* StatusScheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusScheduler.h; sourceTree = "<group>"; };
+		41684B501997DA6000389BD4 /* StatusScheduler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusScheduler.m; sourceTree = "<group>"; };
+		41A0743B19952B4E00EF489A /* PreferenceWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferenceWindow.xib; sourceTree = "<group>"; };
+		41A07440199539CE00EF489A /* StatusPreferenceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatusPreferenceViewController.h; path = ../StatusPreferenceViewController.h; sourceTree = "<group>"; };
+		41A07441199539CE00EF489A /* StatusPreferenceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatusPreferenceViewController.m; path = ../StatusPreferenceViewController.m; sourceTree = "<group>"; };
+		41A074431995BE8E00EF489A /* StatusNotificationProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusNotificationProxy.h; sourceTree = "<group>"; };
+		41A074441995BE8E00EF489A /* StatusNotificationProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusNotificationProxy.m; sourceTree = "<group>"; };
+		41A074461995CFA000EF489A /* StatusConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatusConfiguration.h; path = ../StatusConfiguration.h; sourceTree = "<group>"; };
+		41A074471995CFA000EF489A /* StatusConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatusConfiguration.m; path = ../StatusConfiguration.m; sourceTree = "<group>"; };
 		41A8646317533AF300D2E284 /* RocoService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RocoService.h; sourceTree = "<group>"; };
 		41A8646417533AF300D2E284 /* RocoService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RocoService.m; sourceTree = "<group>"; };
 		41A8646617533B6A00D2E284 /* RocoEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RocoEvent.h; sourceTree = "<group>"; };
@@ -167,20 +181,29 @@
 			isa = PBXGroup;
 			children = (
 				41AFA00C174E171D00901BA6 /* 3rdparty */,
+				41AF9FE9174E16AD00901BA6 /* MainMenu.xib */,
+				41A0743B19952B4E00EF489A /* PreferenceWindow.xib */,
 				41AF9FE6174E16AC00901BA6 /* RocoAppDelegate.h */,
 				41AF9FE7174E16AC00901BA6 /* RocoAppDelegate.m */,
-				41AF9FE9174E16AD00901BA6 /* MainMenu.xib */,
+				41A8646617533B6A00D2E284 /* RocoEvent.h */,
+				41A8646717533B6A00D2E284 /* RocoEvent.m */,
+				41A8646317533AF300D2E284 /* RocoService.h */,
+				41A8646417533AF300D2E284 /* RocoService.m */,
+				41A8646917533BC700D2E284 /* RocoStatus.h */,
+				41A8646A17533BC700D2E284 /* RocoStatus.m */,
 				41AFA01D174E1E8A00901BA6 /* RocoStatusMonitoring.h */,
 				41AFA01E174E1E8A00901BA6 /* RocoStatusMonitoring.m */,
 				41AFA008174E171200901BA6 /* RocoSystemTray.h */,
 				41AFA009174E171200901BA6 /* RocoSystemTray.m */,
+				41A074461995CFA000EF489A /* StatusConfiguration.h */,
+				41A074471995CFA000EF489A /* StatusConfiguration.m */,
+				41A074431995BE8E00EF489A /* StatusNotificationProxy.h */,
+				41A074441995BE8E00EF489A /* StatusNotificationProxy.m */,
+				41A07440199539CE00EF489A /* StatusPreferenceViewController.h */,
+				41A07441199539CE00EF489A /* StatusPreferenceViewController.m */,
 				41AF9FDB174E16AC00901BA6 /* Supporting Files */,
-				41A8646317533AF300D2E284 /* RocoService.h */,
-				41A8646417533AF300D2E284 /* RocoService.m */,
-				41A8646617533B6A00D2E284 /* RocoEvent.h */,
-				41A8646717533B6A00D2E284 /* RocoEvent.m */,
-				41A8646917533BC700D2E284 /* RocoStatus.h */,
-				41A8646A17533BC700D2E284 /* RocoStatus.m */,
+				41684B4F1997DA6000389BD4 /* StatusScheduler.h */,
+				41684B501997DA6000389BD4 /* StatusScheduler.m */,
 			);
 			path = iStatus;
 			sourceTree = "<group>";
@@ -312,6 +335,7 @@
 				41AF9FE5174E16AC00901BA6 /* Credits.rtf in Resources */,
 				41AF9FEB174E16AD00901BA6 /* MainMenu.xib in Resources */,
 				41AFA014174E1D1200901BA6 /* normal_22.png in Resources */,
+				41A0743C19952B4E00EF489A /* PreferenceWindow.xib in Resources */,
 				41AFA016174E1D1200901BA6 /* error_22.png in Resources */,
 				41AFA018174E1D1200901BA6 /* warning_22.png in Resources */,
 				41A8646F1754F59E00D2E284 /* warning.png in Resources */,
@@ -398,13 +422,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				41AF9FE1174E16AC00901BA6 /* main.m in Sources */,
+				41A074481995CFA000EF489A /* StatusConfiguration.m in Sources */,
 				41AF9FE8174E16AC00901BA6 /* RocoAppDelegate.m in Sources */,
 				41AFA00A174E171200901BA6 /* RocoSystemTray.m in Sources */,
 				41AFA00F174E172700901BA6 /* DDHotKeyCenter.m in Sources */,
 				41AFA01F174E1E8A00901BA6 /* RocoStatusMonitoring.m in Sources */,
 				41A8646517533AF300D2E284 /* RocoService.m in Sources */,
 				41A8646817533B6A00D2E284 /* RocoEvent.m in Sources */,
+				41A074451995BE8E00EF489A /* StatusNotificationProxy.m in Sources */,
 				41A8646B17533BC700D2E284 /* RocoStatus.m in Sources */,
+				41A07442199539CE00EF489A /* StatusPreferenceViewController.m in Sources */,
+				41684B511997DA6000389BD4 /* StatusScheduler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,11 +7,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "RocoSystemTray.h"
+#import "StatusScheduler.h"
 
 
 @interface RocoAppDelegate : NSObject <NSApplicationDelegate> {
-    RocoSystemTray* systemTray;
 }
 
 @property (assign) IBOutlet NSWindow *window;

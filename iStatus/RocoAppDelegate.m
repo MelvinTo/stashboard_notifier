@@ -7,25 +7,18 @@
 //
 
 #import "RocoAppDelegate.h"
-
+#import "StatusConfiguration.h"
 #import "RocoStatusMonitoring.h"
 
 @implementation RocoAppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    // Insert code here to initialize your application
-    systemTray = [[RocoSystemTray alloc] init];
-    [systemTray initializeSystemTray];
-//    [systemTray setDelegate:self];
     
+    [[StatusScheduler getInstance] start];
     
-    RocoStatusMonitoring *monitoring = [[RocoStatusMonitoring alloc ] init];
-    [monitoring setDelegate:systemTray];
-    [monitoring startMonitoring];
+    [StatusConfiguration registerDefaults];
     
-    [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:monitoring];
-
 }
 
 @end

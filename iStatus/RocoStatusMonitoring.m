@@ -7,11 +7,13 @@
 //
 
 #import "RocoStatusMonitoring.h"
+#import "StatusNotificationProxy.h"
+#import "StatusConfiguration.h"
 
 
 //NSString *baseURLString = @"http://localhost:4567/";
 
-NSString *baseURLString = @"http://ipds-status.cisco.com:8080/";
+//NSString *baseURLString = @"http://ipds-status.cisco.com:8080/";
 
 @implementation RocoStatusMonitoring
 
@@ -21,7 +23,7 @@ NSString *baseURLString = @"http://ipds-status.cisco.com:8080/";
     
     _prevServiceStatuses = nil;
     
-    NSURL *baseURL = [NSURL URLWithString:baseURLString];
+    NSURL *baseURL = [NSURL URLWithString:[StatusConfiguration getStashboardURL]];
     
     AFHTTPClient* client = [[AFHTTPClient alloc] initWithBaseURL:baseURL];
     [client setDefaultHeader:@"Accept" value:RKMIMETypeJSON];
@@ -92,7 +94,7 @@ NSString *baseURLString = @"http://ipds-status.cisco.com:8080/";
                                 NSArray* newServiceStatuses = [self getNewServiceStatuses:sortedServices];
                                 _prevServiceStatuses = sortedServices;
                                 
-                                [self showNotification:newServiceStatuses];
+                                [[StatusNotificationProxy getInstance] onNewServiceStatuses:newServiceStatuses];
                                 
                                 if (_delegate != nil) {
                                     [_delegate updateServices:services];
@@ -100,17 +102,27 @@ NSString *baseURLString = @"http://ipds-status.cisco.com:8080/";
                             }
                             failure:^(RKObjectRequestOperation *operation, NSError *error) {
                                 NSLog(@"Hit error: %@", error);
-                                
+                                if (_delegate != nil) {
+                                    if ([error.domain isEqualToString:@"NSURLErrorDomain"]
+                                        && error.code == -1001) {
+                                        NSLog(@"Request timeout, is stashboard not reachable??");
+                                        [_delegate onNotReachable];
+                                        [[StatusNotificationProxy getInstance] onNotReachable];
+                                    }
+                                }
                             }];
 
 }
 
 - (void) startMonitoring {
-    [_delegate setBaseURL:baseURLString]; // TODO here, fix this strange behavior to pass base url info to systemtray
+    [_delegate setBaseURL:[StatusConfiguration getStashboardURL]]; // TODO here, fix this strange behavior to pass base url info to systemtray
     
-    // check every 1 min
     [self fetchLatestStatus]; // check right away
-    _timer = [NSTimer scheduledTimerWithTimeInterval:60.0 target:self selector:@selector(fetchLatestStatus) userInfo:nil repeats:YES];
+    // check per configuration.
+    
+    NSInteger checkInterval = [StatusConfiguration getCheckInterval];
+    NSLog(@"check interval is %ld mins", checkInterval);
+    _timer = [NSTimer scheduledTimerWithTimeInterval:(60 * [StatusConfiguration getCheckInterval]) target:self selector:@selector(fetchLatestStatus) userInfo:nil repeats:YES];
 }
 
 - (void) stopMonitoring {
@@ -150,36 +162,6 @@ NSString *baseURLString = @"http://ipds-status.cisco.com:8080/";
     return newServiceStatusArray;
 }
 
-- (void) showNotification: (NSArray*) services {
-    for (RocoService* service in services) {
-        NSString *serviceName = [service serviceName];
-        NSString *status = [[[service event] status] statusID];
-        NSString *serviceID = [service serviceID];
-        STATUS_ID statusID = [[[service event] status] getStatus];
-        NSString *message = [[service event] message];
-        
-        if (status == NULL) {
-            return;
-        }
-        
-        NSDictionary* serviceInfo = [NSDictionary dictionaryWithObjectsAndKeys:serviceID, @"serviceID", nil];
-        
-        NSUserNotification *notification = [[NSUserNotification alloc] init];
-        
-        notification.userInfo = serviceInfo;
-        
-        if(statusID == NORMAL) {
-            notification.title = [NSString stringWithFormat:@"%@ is back to normal", serviceName];
-        } else {
-            notification.title = [NSString stringWithFormat:@"%@ on %@", [status capitalizedString], serviceName];
-            notification.informativeText = message;
-            notification.soundName = NSUserNotificationDefaultSoundName;
-        }
-        
-        [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
-    }
-}
-
 - (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification {
     NSLog(@"callback from NSNotificationCenter");
     
@@ -189,7 +171,7 @@ NSString *baseURLString = @"http://ipds-status.cisco.com:8080/";
     
     for (RocoService* service in _prevServiceStatuses) {
         if ([[service serviceID] isEqual:serviceID]) {
-            NSURL *url = [NSURL URLWithString:[service getServiceURL:baseURLString]];
+            NSURL *url = [NSURL URLWithString:[service getServiceURL:[StatusConfiguration getStashboardURL]]];
             if( ![[NSWorkspace sharedWorkspace] openURL:url] )
                 NSLog(@"Failed to open url: %@",[url description]);
         }

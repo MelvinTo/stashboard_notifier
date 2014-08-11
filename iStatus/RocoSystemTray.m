@@ -13,23 +13,20 @@
 @implementation RocoSystemTray
 
 @synthesize delegate = _delegate;
+
++ (RocoSystemTray*) getSystemTray {
+    static RocoSystemTray* _instance = nil;
+    if (_instance == nil) {
+        _instance = [[RocoSystemTray alloc] init];
+        [_instance initializeSystemTray];
+    }
     
+    return _instance;
+}
+
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
 //    return [menuItem isEnabled];
     return YES;
-}
-
-- (IBAction)actionAddToLoginItem:(id)sender {
-    [self addAppAsLoginItem];
-    [_openAtLoginItem setState: NSOnState];
-    [_openAtLoginItem setAction:@selector(actionDeleteFromLoginItem:)];
-}
-
-- (IBAction)actionDeleteFromLoginItem:(id)sender {
-    [self deleteAppFromLoginItem];
-    [_openAtLoginItem setState: NSOffState];
-    [_openAtLoginItem setAction:@selector(actionAddToLoginItem:)];
-
 }
 
 - (IBAction)quitAction:(id)sender {
@@ -50,19 +47,11 @@
     [_quitItem setTarget:self];
     [_quitItem setEnabled:YES];
     
-    _openAtLoginItem = [[NSMenuItem alloc] initWithTitle:@"Open iStatus at login" action:@selector(testAction:) keyEquivalent:@""];
-    [_openAtLoginItem setTarget:self];
-    [_openAtLoginItem setEnabled:YES];
-    
-    if([self hasAppInLoginItem]) {
-        [_openAtLoginItem setState:NSOnState];
-        [_openAtLoginItem setAction:@selector(actionDeleteFromLoginItem:)];
-    } else {
-        [_openAtLoginItem setState:NSOffState];
-        [_openAtLoginItem setAction:@selector(actionAddToLoginItem:)];
-    }
-    
-    [_statusMenu addItem:_openAtLoginItem];
+    _preferenceItem = [[NSMenuItem alloc] initWithTitle:@"Preferences..." action:@selector(openPreferences:) keyEquivalent:@"p"];
+    [_preferenceItem setTarget:self];
+    [_preferenceItem setEnabled:YES];
+
+    [_statusMenu addItem:_preferenceItem];
     [_statusMenu addItem:_quitItem];
     
     [_statusItem setMenu:_statusMenu];
@@ -74,10 +63,10 @@
 
 }
 
-- (void) removeMenuItems {
+- (void) clearMenuItems {
     // remove all component status related items until the first item is the "open at login"
     while ([_statusMenu numberOfItems] > 0) {
-        if (![[_statusMenu itemAtIndex:0] isEqualTo:_openAtLoginItem]) {
+        if (![[_statusMenu itemAtIndex:0] isEqualTo:_preferenceItem]) {
             [_statusMenu removeItemAtIndex:0];
         } else {
             break;
@@ -105,8 +94,12 @@
         }
     }
     
-    [self removeMenuItems];
+    [self clearMenuItems];
     [self updateMenuInfo: services];
+}
+
+- (void)onNotReachable {
+    [self updateSystemIcon:UNKNOWN];
 }
 
 - (void) openURL:(id)sender {
@@ -170,103 +163,13 @@
     
 }
 
--(void) addAppAsLoginItem {
-    NSLog(@"Add app into login item");
-    
-	NSString * appPath = [[NSBundle mainBundle] bundlePath];
-    
-	// This will retrieve the path for the application
-	// For example, /Applications/test.app
-	CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:appPath];
-    
-	// Create a reference to the shared file list.
-    // We are adding it to the current user only.
-    // If we want to add it all users, use
-    // kLSSharedFileListGlobalLoginItems instead of
-    //kLSSharedFileListSessionLoginItems
-	LSSharedFileListRef loginItems = LSSharedFileListCreate(NULL,
-                                                            kLSSharedFileListSessionLoginItems, NULL);
-	if (loginItems) {
-		//Insert an item to the list.
-		LSSharedFileListItemRef item = LSSharedFileListInsertItemURL(loginItems,
-                                                                     kLSSharedFileListItemLast, NULL, NULL,
-                                                                     url, NULL, NULL);
-		if (item){
-			CFRelease(item);
-        }
-	}
-    
-	CFRelease(loginItems);
-}
-
-- (BOOL) hasAppInLoginItem {
-    NSString * appPath = [[NSBundle mainBundle] bundlePath];
-    
-	// This will retrieve the path for the application
-	// For example, /Applications/test.app
-	CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:appPath];
-    
-	// Create a reference to the shared file list.
-	LSSharedFileListRef loginItems = LSSharedFileListCreate(NULL,
-                                                            kLSSharedFileListSessionLoginItems, NULL);
-    
-	if (loginItems) {
-		UInt32 seedValue;
-		//Retrieve the list of Login Items and cast them to
-		// a NSArray so that it will be easier to iterate.
-		NSArray  *loginItemsArray = (__bridge NSArray *)LSSharedFileListCopySnapshot(loginItems, &seedValue);
-		int i = 0;
-		for(; i< [loginItemsArray count]; i++){
-			LSSharedFileListItemRef itemRef = (__bridge LSSharedFileListItemRef)[loginItemsArray
-                                                                                 objectAtIndex:i];
-			//Resolve the item with URL
-			if (LSSharedFileListItemResolve(itemRef, 0, (CFURLRef*) &url, NULL) == noErr) {
-				NSString * urlPath = [(__bridge NSURL*)url path];
-				if ([urlPath compare:appPath] == NSOrderedSame){
-                    return YES;
-				}
-			}
-		}
-	}
-    
-    return NO;
-}
-
--(void) deleteAppFromLoginItem{
-    NSLog(@"Remove app from login item");
-    
-	NSString * appPath = [[NSBundle mainBundle] bundlePath];
-    
-	// This will retrieve the path for the application
-	// For example, /Applications/test.app
-	CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:appPath];
-    
-	// Create a reference to the shared file list.
-	LSSharedFileListRef loginItems = LSSharedFileListCreate(NULL,
-                                                            kLSSharedFileListSessionLoginItems, NULL);
-    
-	if (loginItems) {
-		UInt32 seedValue;
-		//Retrieve the list of Login Items and cast them to
-		// a NSArray so that it will be easier to iterate.
-		NSArray  *loginItemsArray = (__bridge NSArray *)LSSharedFileListCopySnapshot(loginItems, &seedValue);
-		int i = 0;
-		for(; i< [loginItemsArray count]; i++){
-			LSSharedFileListItemRef itemRef = (__bridge LSSharedFileListItemRef)[loginItemsArray
-                                                                                 objectAtIndex:i];
-			//Resolve the item with URL
-			if (LSSharedFileListItemResolve(itemRef, 0, (CFURLRef*) &url, NULL) == noErr) {
-				NSString * urlPath = [(__bridge NSURL*)url path];
-				if ([urlPath compare:appPath] == NSOrderedSame){
-					LSSharedFileListItemRemove(loginItems,itemRef);
-				}
-			}
-		}
-	}
-}
-
 - (void)setBaseURL:(NSString *)baseURLString {
     _baseURLString = baseURLString;
+}
+
+- (IBAction)openPreferences:(id)sender {
+     _preferenceWindowController =[[NSWindowController alloc] initWithWindowNibName:@"PreferenceWindow"];
+    [_preferenceWindowController showWindow:self];
 }
 
 @end
