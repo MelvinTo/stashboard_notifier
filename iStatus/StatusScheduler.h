@@ -10,7 +10,7 @@
 #import "RocoStatusMonitoring.h"
 
 @interface StatusScheduler : NSObject {
-    
+    NSWindowController* _preferenceWindowController;
 }
 
 @property (nonatomic, retain) RocoStatusMonitoring* monitoring;
@@ -20,5 +20,7 @@
 - (void) start;
 - (void) stop;
 - (void) restart;
+
+- (void) openPreferencesWindow;
 
 @end

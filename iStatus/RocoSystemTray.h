@@ -30,7 +30,6 @@
     NSImage* _systemTrayIconImage;
     
     NSString* _baseURLString;
-    NSWindowController* _preferenceWindowController;
     
 }
 
@@ -41,8 +40,6 @@
 - (void) initializeSystemTray;
 - (void) setInformation: (NSString*) name;
 
-- (IBAction)actionAddToLoginItem:(id)sender;
-- (IBAction)actionDeleteFromLoginItem:(id)sender;
 - (IBAction)quitAction:(id)sender;
 - (IBAction) openURL:(id)sender;
 - (IBAction)openPreferences:(id)sender;

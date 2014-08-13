@@ -9,6 +9,7 @@
 #import "StatusScheduler.h"
 #import "RocoSystemTray.h"
 #import "StatusConfiguration.h"
+#import "StatusPreferenceWindowController.h"
 
 @implementation StatusScheduler
 
@@ -18,6 +19,20 @@
         _instance = [[StatusScheduler alloc] init];
     }
     return _instance;
+}
+
+- (id)init {
+    self = [super init];
+    
+    if (self) {
+        // initialization code here
+        if ([StatusConfiguration getStashboardURL] == nil) {
+            [self openPreferencesWindow];
+        }
+    }
+    NSLog(@"init ...");
+    return self;
+
 }
 
 - (void)start {
@@ -39,6 +54,11 @@
     NSLog(@"StatusScheduler is restarting job");
     [self stop];
     [self start];
+}
+
+- (void) openPreferencesWindow {
+    _preferenceWindowController =[[StatusPreferenceWindowController alloc] initWithWindowNibName:@"PreferenceWindow"];
+    [_preferenceWindowController showWindow:self];
 }
 
 @end

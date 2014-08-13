@@ -40,12 +40,12 @@ NSDictionary* tickValueMapping;
     
     // init tick mapping
     tickValueMapping = @{
-        @0 : @0,
-        @1 : @1,
-        @2 : @5,
-        @3 : @15,
-        @4 : @30,
-        @5 : @60
+        @0 : @10, // FIXME...
+        @1 : @60,
+        @2 : @300,
+        @3 : @900,
+        @4 : @1800,
+        @5 : @3600
     };
     
     NSInteger checkInterval = [StatusConfiguration getCheckInterval];

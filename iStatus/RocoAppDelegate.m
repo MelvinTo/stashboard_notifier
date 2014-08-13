@@ -14,11 +14,8 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    
-    [[StatusScheduler getInstance] start];
-    
     [StatusConfiguration registerDefaults];
-    
+    [[StatusScheduler getInstance] start];
 }
 
 @end

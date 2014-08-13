@@ -8,6 +8,7 @@
 
 #import "RocoSystemTray.h"
 #import "DDHotKeyCenter.h"
+#import "StatusScheduler.h"
 
 
 @implementation RocoSystemTray
@@ -100,6 +101,21 @@
 
 - (void)onNotReachable {
     [self updateSystemIcon:UNKNOWN];
+    [self clearMenuItems];
+    
+    NSMenuItem* serviceNameMenuItem = [[NSMenuItem alloc] initWithTitle:@"Stashboard" action:nil keyEquivalent:@""];
+    [serviceNameMenuItem setEnabled:NO];
+    
+    NSMenuItem* serviceInfoMenuItem = [[NSMenuItem alloc] initWithTitle:@"Stashboard restful API is not reachable"  action:@selector(openURL:) keyEquivalent:@""];
+    [serviceInfoMenuItem setEnabled:YES];
+    [serviceInfoMenuItem setTarget:self];
+    [serviceInfoMenuItem setRepresentedObject:nil];
+    [serviceInfoMenuItem setImage:[NSImage imageNamed:@"error"]];
+
+    int i = 0;
+    [_statusMenu insertItem:serviceNameMenuItem atIndex:i++];
+    [_statusMenu insertItem:serviceInfoMenuItem atIndex:i++];
+    [_statusMenu insertItem:[NSMenuItem separatorItem] atIndex:i++];
 }
 
 - (void) openURL:(id)sender {
@@ -168,8 +184,7 @@
 }
 
 - (IBAction)openPreferences:(id)sender {
-     _preferenceWindowController =[[NSWindowController alloc] initWithWindowNibName:@"PreferenceWindow"];
-    [_preferenceWindowController showWindow:self];
+    [[StatusScheduler getInstance] openPreferencesWindow];
 }
 
 @end

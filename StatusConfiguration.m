@@ -13,7 +13,7 @@
 + (void) registerDefaults {
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     if([defaults objectForKey:@"check_interval"] == nil) {
-        [StatusConfiguration setCheckInterval:5]; // default value is check every 5 mins
+        [StatusConfiguration setCheckInterval:300]; // default value is check every 5 mins
     }
 }
 

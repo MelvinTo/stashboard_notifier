@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		41684B511997DA6000389BD4 /* StatusScheduler.m in Sources */ = {isa = PBXBuildFile; fileRef = 41684B501997DA6000389BD4 /* StatusScheduler.m */; };
+		41684B541999045E00389BD4 /* StatusPreferenceWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41684B531999045E00389BD4 /* StatusPreferenceWindowController.m */; };
+		41684B571999057800389BD4 /* StatusPreferenceWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 41684B561999057800389BD4 /* StatusPreferenceWindow.m */; };
 		4186B0AD175B418000EB38EF /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41AFA01A174E1D6000901BA6 /* Carbon.framework */; };
 		41A0743C19952B4E00EF489A /* PreferenceWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41A0743B19952B4E00EF489A /* PreferenceWindow.xib */; };
 		41A07442199539CE00EF489A /* StatusPreferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A07441199539CE00EF489A /* StatusPreferenceViewController.m */; };
@@ -60,6 +62,10 @@
 /* Begin PBXFileReference section */
 		41684B4F1997DA6000389BD4 /* StatusScheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusScheduler.h; sourceTree = "<group>"; };
 		41684B501997DA6000389BD4 /* StatusScheduler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusScheduler.m; sourceTree = "<group>"; };
+		41684B521999045E00389BD4 /* StatusPreferenceWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusPreferenceWindowController.h; sourceTree = "<group>"; };
+		41684B531999045E00389BD4 /* StatusPreferenceWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusPreferenceWindowController.m; sourceTree = "<group>"; };
+		41684B551999057800389BD4 /* StatusPreferenceWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusPreferenceWindow.h; sourceTree = "<group>"; };
+		41684B561999057800389BD4 /* StatusPreferenceWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusPreferenceWindow.m; sourceTree = "<group>"; };
 		41A0743B19952B4E00EF489A /* PreferenceWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferenceWindow.xib; sourceTree = "<group>"; };
 		41A07440199539CE00EF489A /* StatusPreferenceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatusPreferenceViewController.h; path = ../StatusPreferenceViewController.h; sourceTree = "<group>"; };
 		41A07441199539CE00EF489A /* StatusPreferenceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatusPreferenceViewController.m; path = ../StatusPreferenceViewController.m; sourceTree = "<group>"; };
@@ -204,6 +210,10 @@
 				41AF9FDB174E16AC00901BA6 /* Supporting Files */,
 				41684B4F1997DA6000389BD4 /* StatusScheduler.h */,
 				41684B501997DA6000389BD4 /* StatusScheduler.m */,
+				41684B521999045E00389BD4 /* StatusPreferenceWindowController.h */,
+				41684B531999045E00389BD4 /* StatusPreferenceWindowController.m */,
+				41684B551999057800389BD4 /* StatusPreferenceWindow.h */,
+				41684B561999057800389BD4 /* StatusPreferenceWindow.m */,
 			);
 			path = iStatus;
 			sourceTree = "<group>";
@@ -425,12 +435,14 @@
 				41A074481995CFA000EF489A /* StatusConfiguration.m in Sources */,
 				41AF9FE8174E16AC00901BA6 /* RocoAppDelegate.m in Sources */,
 				41AFA00A174E171200901BA6 /* RocoSystemTray.m in Sources */,
+				41684B571999057800389BD4 /* StatusPreferenceWindow.m in Sources */,
 				41AFA00F174E172700901BA6 /* DDHotKeyCenter.m in Sources */,
 				41AFA01F174E1E8A00901BA6 /* RocoStatusMonitoring.m in Sources */,
 				41A8646517533AF300D2E284 /* RocoService.m in Sources */,
 				41A8646817533B6A00D2E284 /* RocoEvent.m in Sources */,
 				41A074451995BE8E00EF489A /* StatusNotificationProxy.m in Sources */,
 				41A8646B17533BC700D2E284 /* RocoStatus.m in Sources */,
+				41684B541999045E00389BD4 /* StatusPreferenceWindowController.m in Sources */,
 				41A07442199539CE00EF489A /* StatusPreferenceViewController.m in Sources */,
 				41684B511997DA6000389BD4 /* StatusScheduler.m in Sources */,
 			);

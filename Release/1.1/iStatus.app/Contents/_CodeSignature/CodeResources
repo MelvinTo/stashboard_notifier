@@ -4,6 +4,10 @@
 <dict>
 	<key>files</key>
 	<dict>
+		<key>Resources/PreferenceWindow.nib</key>
+		<data>
+		90+MoT3+bG6ZPsrLhqCgxotPruA=
+		</data>
 		<key>Resources/en.lproj/Credits.rtf</key>
 		<dict>
 			<key>hash</key>
@@ -66,6 +70,10 @@
 	</dict>
 	<key>files2</key>
 	<dict>
+		<key>Resources/PreferenceWindow.nib</key>
+		<data>
+		90+MoT3+bG6ZPsrLhqCgxotPruA=
+		</data>
 		<key>Resources/en.lproj/Credits.rtf</key>
 		<dict>
 			<key>hash</key>

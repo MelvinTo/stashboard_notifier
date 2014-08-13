@@ -121,8 +121,8 @@
     // check per configuration.
     
     NSInteger checkInterval = [StatusConfiguration getCheckInterval];
-    NSLog(@"check interval is %ld mins", checkInterval);
-    _timer = [NSTimer scheduledTimerWithTimeInterval:(60 * [StatusConfiguration getCheckInterval]) target:self selector:@selector(fetchLatestStatus) userInfo:nil repeats:YES];
+    NSLog(@"check interval is %ld seconds", checkInterval);
+    _timer = [NSTimer scheduledTimerWithTimeInterval:([StatusConfiguration getCheckInterval]) target:self selector:@selector(fetchLatestStatus) userInfo:nil repeats:YES];
 }
 
 - (void) stopMonitoring {
